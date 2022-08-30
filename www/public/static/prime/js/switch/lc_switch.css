@@ -1,0 +1,49 @@
+.lcs_wrap {
+	display: inline-block;	
+	direction: ltr;
+	height: 26px;
+    vertical-align: middle;
+	font-size: 11px !important;
+}
+.lcs_wrap input {
+	display: none;	
+}
+
+.lcs_switch {display: inline-block;	position: relative; width: 50px; height: 26px; border-radius: 30px; background: #fffccc; overflow: hidden; cursor: pointer; transition: all .2s ease-in-out; }
+.lcs_cursor {display: inline-block; position: absolute; top: 3px; width: 20px !important; height: 20px !important; border-radius: 100%; background: #fff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.1); z-index: 10; transition:all .2s linear; }
+
+
+.lcs_label { display: none;
+	/*font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 11px;
+	letter-spacing: 1px;
+	line-height: 18px;
+	color: #fff;
+	font-weight: bold;
+	position: absolute;
+	width: 33px;
+	top: 5px;
+	overflow: hidden;
+	text-align: center;
+	opacity: 0;
+
+	-webkit-transition: all .2s ease-in-out .1s;
+	-ms-transition: 	all .2s ease-in-out .1s;
+	transition: 		all .2s ease-in-out .1s;   */
+}
+.lcs_label.lcs_label_on {left: -40px; z-index: 6;}
+.lcs_label.lcs_label_off {right: -40px; z-index: 5;}
+
+/* on */
+.lcs_switch.lcs_on {background: #505bf0; box-shadow: 0 0 2px #505bf0 inset;}
+.lcs_switch.lcs_on .lcs_cursor {left: 27px; background:#fff}
+
+.lcs_switch.lcs_on .lcs_label_on {left: 10px;	 opacity: 1;}
+
+/* off */
+.lcs_switch.lcs_off {background: #ccc; box-shadow: 0px 0px 2px #ccc inset; 	}
+.lcs_switch.lcs_off .lcs_cursor {left: 3px; background:#fff}
+.lcs_switch.lcs_off .lcs_label_off {right: 10px; opacity: 1;	}
+
+/* disabled */
+.lcs_switch.lcs_disabled {opacity: 0.65; filter: alpha(opacity=65);	 cursor: default;}

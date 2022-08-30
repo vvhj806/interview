@@ -1,0 +1,30 @@
+name: build # GitHub 리포지토리의 작업 탭에 표시될 워크플로의 이름
+
+on: # webTest Branch에서 push 이벤트가 일어났을 때만 실행
+  push:
+    branches: [ master ]
+
+jobs: # 작업을 그룹화
+  build:
+    runs-on: self-hosted
+    steps: # check-bats-version작업 에서 실행되는 모든 단계를 함께 그룹화. 이 섹션 아래에 중첩된 각 항목은 별도의 작업 또는 셸 명령
+      - name: Checkout source code.
+        uses: actions/checkout@v2 # 리포지토리를 체크아웃하고 이를 러너에 다운로드하여 코드에 대해 작업을 실행할 수 있도록 하는 작업
+
+      - name: start remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.RENEWAL_SSH_HOST }}
+          username: ${{ secrets.RENEWAL_SSH_ID }}
+          key: ${{ secrets.RENEWAL_SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            echo "Machine Name : $(hostname)"
+            cd /home/interview/twoPointZero/interview
+            git clean -f -d
+            git fetch origin master
+            git pull
+            yes | cp -arpf ./ /opt/www/twoPointZero/interview/
+            cd /opt/www/twoPointZero/interview/
+            rm -rf .git .github .gitignore README.md

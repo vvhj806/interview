@@ -1,0 +1,465 @@
+<!--s #scontent-->
+<div id="scontent">
+    <!--s face_vdoBox-->
+    <div class="face_vdoBox">
+        <!--s txtBox-->
+        <div class="txtBox c">
+            <div class="txt" id="text_">
+                얼굴인식을 준비중입니다. <br /> 잠시만 기다려주세요.
+            </div>
+            <div class="txt" id="text_2" style="display:none">
+                3
+            </div>
+        </div>
+        <!--e txtBox-->
+
+        <!--s fv_BtnBox-->
+        <div class="fv_BtnBox">
+            <!--s fv_Btncontx-->
+            <div class="fv_Btncont">
+                <!--s fv_back-->
+                <div class="fv_iconBtn fv_back">
+                    <a href="javascript:window.history.back();">
+                        <div class="icon"><img src="/static/www/img/sub/fv_back_icon.png"></div>
+                        <div class="txt">뒤로가기</div>
+                    </a>
+                </div>
+                <!--e fv_back-->
+
+                <!--s play_icon-->
+                <div class="play_icon" id="btn_shot" style="display:none;">
+                    <div class="play"></div><!-- 다시 찍어야할때 숨김처리 -->
+                    <div class="play_txt" id="btn_reshot" style="display:none">다시<br />찍기</div> <!-- 다시 찍어야할때 나타나게 -->
+                </div>
+                <!--e play_icon-->
+
+                <!--s fv_next-->
+                <div class="fv_iconBtn fv_ok" id="btn_next" style="display:none">
+                    <a href="mic_ck01.php">
+                        <div class="icon"><img src="/static/www/img/sub/fv_ok_icon.png"></div>
+                        <div class="txt">확인</div>
+                    </a>
+                </div>
+                <!--e fv_back-->
+            </div>
+            <!--e fv_Btncontx-->
+        </div>
+        <!--e fv_BtnBox-->
+
+        <!--s videoBox-->
+        <div class="videoBox">
+            <canvas id="_canvas" class="" style="display:none;"></canvas>
+            <img id="photo" class="videoContent" style="display:none;" />
+            <video class="videoContent" preload="metadata" id="v_pc_1" autoplay playsinline style="-webkit-transform: rotateY(180deg);width: unset;"></video>
+        </div>
+        <!--e videoBox-->
+        <div id="btn-start-recording" style="display: none;">
+            <button id="btn-start-recording">Start Recording</button>
+        </div>
+
+    </div>
+    <!--e face_vdoBox-->
+</div>
+<?= csrf_field() ?>
+<!--e #scontent-->
+
+<script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
+<script src="https://www.webrtc-experiment.com/EBML.js"></script>
+<script src="https://www.webrtc-experiment.com/DetectRTC.js"></script>
+<script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://www.webrtc-experiment.com/common.js"></script>
+<script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
+<script src="https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js"></script>
+<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js"></script>
+<script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
+<script src="/plugins/tfjs/tf-triangulation.js"></script>
+<script src="<?= $data['url']['menu'] ?>/plugins/bowser/bundled.js"></script>
+
+
+<script>
+    //jQuery 셀렉터는 이벤트를 가져오지 못합니다.
+    const video = document.getElementById("v_pc_1");
+    const canvas = document.getElementById("_canvas");
+    const photo = document.querySelector('#photo'); //사진 이미지 변수
+    let _winWidth = $('.videoBox video').innerWidth();
+    let _winHeight = $('.videoBox video').innerHeight();
+    let timer;
+    let count = 3;
+    let reshot = false;
+    let shot_btn_ck = true;
+    let changeImg = true;
+    let info = bowser.parse(window.navigator.userAgent);
+    let scaleSet = true;
+
+    let constraints = { //화면 크기
+        width: {
+            ideal: _winWidth,
+            min: 640,
+            max: 1920
+        },
+        height: {
+            ideal: _winHeight,
+            min: 480,
+            max: 1080
+        },
+        frameRate: {
+            ideal: 30,
+            max: 30
+        },
+        facingMode: {
+            ideal: 'user'
+        }
+    };
+
+    checkDevice();
+
+    $(document).ready(function() {
+        $("#btn-start-recording").trigger("click");
+    });
+
+    const setupCamera = () => {
+        navigator.mediaDevices
+            .getUserMedia({
+                video: constraints,
+                audio: false,
+            })
+            .then((stream) => {
+                video.srcObject = stream;
+                initSocket();
+            })
+
+            .catch((e) => {
+                if (e) {
+                    if (e.name == 'OverconstrainedError') {
+                        alert('지원하지 않는 카메라의 해상도입니다.\n\n사용하고 계신 카메라를 확인하시거나 고객센터로 문의바랍니다.')
+                    } else {
+                        console.log(e);
+                        alert('카메라가 연결되어 있지 않거나 정상적인 접근이 아닙니다. \n\n고객센터로 문의바랍니다.\n\n')
+                    }
+                    location.href = "/";
+                    return;
+                }
+            });
+    };
+
+    document.getElementById('btn-start-recording').onclick = function() {
+        setupCamera(function(camera) {
+            video.muted = true;
+            video.volume = 0;
+            video.srcObject = camera;
+            let recordingHints = {
+                type: 'video',
+                mimeType: 'video/webm;codecs=vp8',
+                frameRate: 15
+            };
+        });
+    };
+
+    function initSocket() {
+        socket = io.connect('<?= $data['url']['mediaFull'] ?>', {
+            cors: {
+                origin: '*'
+            },
+            transports: ["websocket"]
+        });
+
+        socket.on('connect', function() {
+            console.log("socket connected");
+        });
+
+        socket.on('connect_error', function() {
+            if (audio) audio.pause();
+            alert("데이터 전송 지연이 발생합니다. 잠시후에 시도해주세요.\n같은 현상이 반복되면 고객센터나 카카오톡 채널 [하이버프 인터뷰]로 문의바랍니다.");
+            location.reload();
+            return false;
+        });
+
+        socket.on('complete_thumb', (data) => {
+            let aParam = {
+                'type': 'complete_thumb',
+                'method': 'POST',
+                'url': '/api/my/file/upload/thumb/mypage',
+                'fileData': data
+            };
+            getAjax(aParam);
+        });
+        socket.on('disconnect', function() {
+            alert("서버 연결이 끊어졌습니다. 잠시후에 시도해주세요.\n같은 현상이 반복되면 고객센터나 카카오톡 채널 [하이버프 인터뷰]로 문의바랍니다.");
+            location.reload();
+            return false;
+        });
+    }
+
+    const detectFaces = async () => { //미소인식 함수
+
+        if (shot_btn_ck) {
+            $('#btn_shot').show();
+            shot_btn_ck = false;
+        }
+
+        const prediction = await model.estimateFaces({
+            input: video,
+            returnTensors: false,
+            flipHorizontal: false,
+            predictIrises: false
+        });
+
+        let w = video.videoWidth;
+        let h = video.videoHeight;
+
+        //face detect
+        if (prediction.length > 0) {
+            let mesh = prediction[0].scaledMesh;
+            //smile check
+            let d1 = distance(prediction[0].annotations["noseBottom"][0], prediction[0].annotations["lipsUpperOuter"][5]); //인중거리
+            let d2 = distance(prediction[0].annotations["lipsUpperInner"][5], prediction[0].annotations["lipsLowerInner"][5]); //입벌리는거리
+            let p1 = (d2 / (2 * d1)) * 0.2; //입벌리는거 체크 가중치 20%
+
+            let result = [];
+            let left_upper_lip = prediction[0].annotations["lipsUpperOuter"][0][1];
+            let right_upper_lip = prediction[0].annotations["lipsUpperOuter"][10][1];
+            for (i = 0; i < prediction[0].annotations["lipsUpperOuter"].length; i++) {
+                if (prediction[0].annotations["lipsUpperOuter"][i][1] > left_upper_lip && prediction[0].annotations["lipsUpperOuter"][i][1] > right_upper_lip) {
+                    result.push(i);
+                }
+            }
+            for (i = 0; i < prediction[0].annotations["lipsUpperInner"].length; i++) {
+                if (prediction[0].annotations["lipsUpperInner"][i][1] > left_upper_lip && prediction[0].annotations["lipsUpperInner"][i][1] > right_upper_lip) {
+                    result.push(i);
+                }
+            }
+            for (i = 0; i < prediction[0].annotations["lipsLowerInner"].length; i++) {
+                if (prediction[0].annotations["lipsLowerInner"][i][1] > left_upper_lip && prediction[0].annotations["lipsLowerInner"][i][1] > right_upper_lip) {
+                    result.push(i);
+                }
+            }
+            for (i = 0; i < prediction[0].annotations["lipsLowerOuter"].length; i++) {
+                if (prediction[0].annotations["lipsLowerOuter"][i][1] > left_upper_lip && prediction[0].annotations["lipsLowerOuter"][i][1] > right_upper_lip) {
+                    result.push(i);
+                }
+            }
+            let lips_sum = prediction[0].annotations["lipsLowerOuter"].length + prediction[0].annotations["lipsLowerInner"].length + prediction[0].annotations["lipsUpperInner"].length + prediction[0].annotations["lipsUpperOuter"].length;
+            let p2 = (result.length / lips_sum) * 0.4; //입의 방향 체크 가중치 40% 
+
+            let dlc = distance(prediction[0].annotations["lipsUpperOuter"][0], mesh[58]); //왼쪽입과 볼사이의 거리
+            let drc = distance(prediction[0].annotations["lipsUpperOuter"][10], mesh[288]); //오른쪽입과 볼사이의 거리
+            let dlj = distance(prediction[0].annotations["lipsUpperOuter"][0], mesh[149]); //왼쪽입과 턱사이의 거리
+            let drj = distance(prediction[0].annotations["lipsUpperOuter"][10], mesh[378]); //오른쪽입과 턱사이의 거리
+            let p3 = ((dlj + drj) / (dlj + drj + dlc + drc)) * 0.4; //입의 위치 체크 가중치 40%
+
+            $('#text_').html("프로필 저장을 위해 촬영을 진행합니다. <br /> 프로필 촬영 전 한번 웃어 볼까요?");
+            if (p1 + p2 + p3 > 0.5) {
+                clearInterval(timer);
+                $('#btn_shot').click();
+            }
+        } else {
+            $('#text_').html("프로필 저장을 위해 촬영을 진행합니다. <br /> 얼굴을 화면 중앙에 인식 시켜주세요.");
+            if (shot_btn_ck) {
+                $('#btn_shot').show();
+                shot_btn_ck = false;
+            }
+        }
+        await tf.nextFrame();
+    };
+
+    //얼굴인식 함수 실행시키는 함수
+    video.addEventListener("loadeddata", async () => {
+        model = await faceLandmarksDetection.load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh);
+        try {
+            timer = setInterval(detectFaces, 50);
+        } catch (error) {
+            alert('얼굴 인식 기능이 작동하지 않습니다. \n\n고객센터로 문의바랍니다.\n\n');
+        }
+    });
+
+    function distance(a, b) {
+        return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2));
+    }
+
+    function setup() { //카운터가 돌아가는 함수
+        count--;
+        $('#text_2').text(count);
+        if (count < 1) {
+            if (changeImg == true) {
+                takePicture();
+                scaleSet = false;
+            }
+            clearInterval(setupInterval);
+
+            $('#btn_shot').show();
+            $('#btn_reshot').show();
+            $('#btn_next').show();
+            $('#v_pc_1').hide();
+            $('#photo').show();
+            $('#text_2').text("프로필 촬영이 완료되었습니다.");
+
+        }
+    }
+
+    function takePicture() {
+        changeImg = false;
+        let context = canvas.getContext('2d');
+        if (scaleSet != false) {
+            $('#_canvas').attr('width', $("#v_pc_1").width());
+            $('#_canvas').attr('height', $("#v_pc_1").height());
+
+            if (info.os.name == 'Android') {
+                $('#_canvas').attr('width', window.innerWidth);
+            } else if (info.os.name == "iOS") {
+                $('#_canvas').attr('width', window.innerWidth);
+            }
+
+            context.scale(-1, 1);
+            context.translate(-canvas.width, 0);
+        }
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        let data = canvas.toDataURL('image/png');
+        photo.setAttribute('src', data);
+        photo.style.display = "";
+    }
+
+    function getFileName(fields, fileExtension) {
+        let d = new Date();
+        let index = "<?= $data['memIdx'] ?>";
+        let rand = Math.random().toString(36).substr(2, 11);
+        let times = d.getTime();
+        return index + "-" + fields + "-" + times + '-' + rand + '.' + fileExtension;
+    }
+
+    $('#btn_shot').on("click", function(ev) {
+        ev.preventDefault();
+        clearInterval(timer);
+        if (reshot == false) {
+            clearInterval(timer);
+            if (count > 0) {
+                setupInterval = setInterval(setup, 1500);
+                $('#btn_shot').hide();
+                $('#btn_next').hide();
+                $('#text_').hide();
+                $('#v_pc_1').show();
+                $('#photo').hide();
+                $('#text_2').show();
+
+                reshot = true;
+            }
+        } else {
+            clearInterval(timer);
+            count = 3;
+            changeImg = true;
+            if (count > 0) {
+                setupInterval = setInterval(setup, 1500);
+                $('#btn_shot').hide();
+                $('#btn_next').hide();
+                $('#text_').hide();
+                $('#v_pc_1').show();
+                $('#photo').hide();
+                $('#text_2').show();
+                $('#text_2').text(count);
+
+            }
+        }
+    })
+
+    $('#btn_next').on("click", function(e) {
+        e.preventDefault();
+        const filename = getFileName("mypage", "png");
+        fetch(photo.src)
+            .then(res => res.blob())
+            .then(blob => {
+                const file = new File([blob], filename, {
+                    type: 'image/png'
+                });
+                const data = {
+                    source: file,
+                    name: filename,
+                    size: file.size,
+                };
+                socket.emit('thumbnail', data);
+            });
+
+    });
+
+    function getAjax(params) {
+        const emlCsrf = $("input[name='<?= csrf_token() ?>']");
+        let data = {};
+        if (!params['type']) {
+            return false;
+        }
+        if (params['type'] == 'complete_thumb') {
+
+            data = {
+                '<?= csrf_token() ?>': emlCsrf.val(),
+                'fileOrgName': params['fileData']['name'],
+                'fileSaveName': params['fileData']['filePath'].substr(1),
+                'fileSize': params['fileData']['size'],
+                'fileType': 'M',
+                'postCase': 'file_write',
+                'memIdx': '<?= $data['session']['idx'] ?>'
+            };
+        }
+        $.ajax({
+            type: params['method'],
+            url: params['url'],
+            data: data,
+            success: function(data) {
+                emlCsrf.val(data.code.token);
+                if (data.status == 200) {
+                    if (params['type'] = 'complete_thumb') {
+                        location.href = "/my/modify?file=" + data.EnfileIdx;
+                    }
+                } else {
+                    alert(data.messages);
+                    return false;
+                }
+                return true;
+            },
+            error: function(e) {
+                alert(`${e.responseJSON.messages} (${e.responseJSON.status})`);
+                return;
+            }
+        }) //ajax;
+    }
+
+    function checkDevice() {
+        if (info.platform.type == 'desktop') {
+            if (info.os.name == 'Windows') {
+                if (info.browser.name != "Chrome") {
+                    alert('Windows 환경에서는 Chrome 브라우저를 이용해주세요.');
+                    location.href = "/";
+                }
+            } else if (info.os.name == "macOS") {
+                if (info.browser.name != "Safari") {
+                    alert("Mac 환경에서는 Safari 브라우저를 이용해주세요.");
+                    location.href = "/";
+                }
+            }
+        } else { //모바일
+            if (info.os.name == 'Android') {
+                if (info.browser.name != "Chrome") {
+                    // alert('ANDROID 환경에서는 Chrome 브라우저를 이용해주세요.');
+                    // location.href = "/";
+                }
+            } else if (info.os.name == "iOS") {
+                if (info.browser.name != "Safari") {
+                    // alert("IOS 환경에서는 Safari 브라우저를 이용해주세요.");
+                    // location.href = "/";
+                }
+            }
+
+        }
+    }
+</script>
+
+<style>
+    .face_vdoBox {
+        height: 100vh;
+        /* Use vh as a fallback for browsers that do not support Custom Properties */
+        height: calc(var(--videoH, 1vh) * 100);
+    }
+
+    .face_vdoBox .fv_BtnBox:after {
+        height: unset;
+    }
+</style>

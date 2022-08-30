@@ -1,0 +1,133 @@
+@page {
+	size: A4;margin: 0;
+}
+
+body {background:#eee; font-size:12px; font-family:"Noto Sans KR", Malgun Gothic,'맑은 고딕',"돋움",Dotum,Verdana,Arial,helvetica,clean,sans-serif;}
+#wrap {background:none}
+.q_topBtn {display:none}
+
+
+/*--------------------------------------------------인쇄부분--------------------------------------------------*/
+/*컨텐츠*/
+.print_page {position:relative; background:#fff; width: 210mm;height: 297mm; margin:0 auto;-webkit-print-color-adjust:exact;}
+.print_cont {position:relative; padding:0.81cm 0.85cm; height:100%; page-break-after: always; word-break: keep-all}
+
+/*큰타이틀*/
+.prt_top_btlt {font-size:28px; margin-bottom:15px; font-weight:700; color:#222; line-height:1.2em}
+.prt_grayBox_txt {font-size:13px; margin-bottom:20px; padding:11px; background:#f8f8f8; color:#5e5e5e; line-height:1.3em}
+
+.prt_profileBox {position:relative; padding:0 27px 11px 27px; border-bottom:4px solid #ddd; margin-bottom:25px}
+.prt_profileBox .imgBox {width:67px; height:67px; border-radius:50%; overflow:hidden}
+.prt_profileBox .prt_profileUl {position:absolute; bottom:11px; right:27px}
+.prt_profileBox .prt_profileUl li {display:inline-block; margin-left:20px; font-size:13px;}
+.prt_profileBox .prt_profileUl .tlt {color:#afafaf; padding-right:10px}
+.prt_profileBox .prt_profileUl .txt {font-weight:700}
+
+/*컨텐츠 타이틀*/
+.prt_tltBox {margin-bottom:12px}
+.mt {margin-top:20px}
+
+.mt10 {margin-top:10px}
+.mt20 {margin-top:20px}
+.mt30 {margin-top:30px}
+.mt35 {margin-top:35px}
+.mt40 {margin-top:40px}
+.mt45 {margin-top:45px}
+.mt50 {margin-top:50px}
+
+.point3 {color:#ec6691}
+
+.prt_tltBox .tlt {font-size:18px; color:#343434; margin-bottom:7px}
+.prt_tltBox .txt {color:#5e5e5e}
+
+.prt_ratingBox {background:#eff2ff; border:1px solid #505bf0; border-radius:15px; padding:20px; text-align:center; margin-bottom:10px}
+.prt_ratingBox .prt_rating_txtBox {display:inline-block; vertical-align:top; text-align:left; margin-right:60px;}
+.prt_ratingBox .prt_rating_txtBox:last-child {margin-right:0}
+.prt_ratingBox .prt_rating_txtBox .txt {font-size:28px; line-height:1.2em; color:#505bf0; font-weight:700}
+.prt_ratingBox .prt_rating_txtBox .small {font-size:15px; color:#343434}
+
+/*그레이라인 박스*/
+.prt_glineBox {border-radius:15px; border:1px solid #b0b0b0; padding:17px 20px;}
+.bule_line {border-color:#6c76f9; background:#eff2ff}
+.pink_line {border-color:#ec6691; background:#fff7fa}
+
+.prt_gline_six .prt_glineBox {float:left; width:32.6%; margin:0 1% 1% 0; padding:6px 10px}
+.prt_gline_six .prt_glineBox:nth-child(3n) {margin-right:0}
+
+.prt_glineBox .tltBox {margin-bottom:10px}
+.prt_glineBox .tltBox .tlt {margin-bottom:4px; font-weight:700}
+
+.prt_gline_tlt {font-size:14px; font-weight:700; margin-bottom:10px}
+
+.prt_gline_six .prt_glineBox .tltBox {margin-bottom:5px}
+
+.prt_glineBox .tltBox.mbm {margin-bottom:0}
+
+.prt_glineBox .tltBox .tlt .sp_back {display:inline-block; padding:0 3px; color:#fff}
+.prt_glineBox .tltBox .tlt .sp_back_cl01 {background:#505bf0}
+.prt_glineBox .tltBox .tlt .sp_back_cl02 {background:#25bcc1}
+
+.prt_glineBox .tltBox .tlt .tlt_rpd {padding-right:20px}
+
+.prt_glineBox .tltBox .txt {color:#888}
+
+.prt_glineBox_two {overflow:hidden}
+.prt_glineBox_two .prt_glineBox {float:left; width:49%; margin-right:2%}
+.prt_glineBox_two .prt_glineBox:nth-child(2n) {margin-right:0}
+.prt_glineBox_two .prt_glineBox_cont {display:inline-block; vertical-align:top}
+.prt_glineBox_two .prt_glineBox_cont01 {width:70%; margin-right:5%}
+.prt_glineBox_two .prt_glineBox_cont02 {width:20%;}
+
+.bul01 li {color:#888; position:relative; margin:0 0 2px 4px}
+.bul01 li:last-child {margin-bottom:0}
+.bul01 li:before {content:""; display:inline-block; vertical-align:middle; width:4px; height:1px; background:#888; margin:0 5px 0 -6px}
+
+
+.prt_glineBox_two40 .prt_glineBox {width:44%}
+.prt_glineBox_two40 .prt_tableBox {float:left; width:54%;}
+.prt_tableBox table {border-top:1px solid #b0b0b0}
+.prt_tableBox table th {background:#f7f7f7; font-size:13px}
+.prt_tableBox table th, .prt_tableBox table td {border-bottom:1px solid #b0b0b0; border-right:1px solid #b0b0b0; padding:5px 10px}
+.prt_tableBox table th:last-child, .prt_tableBox table td:last-child {border-right:0}
+
+.prt_tableBox .tlt {font-size:13px; margin-bottom:8px}
+
+.prt_glineBox .spac_graph {display:inline-block; width:30%; margin-right:5%}
+.prt_glineBox .prt_tableBox {display:inline-block; vertical-align:middle; width:64%;}
+
+.qrBox {position:absolute; top:0.81cm; right:0.85cm; text-align:center}
+.qrBox p {font-size:10px}
+
+.prt_videoBox {position:relative; border-radius:15px; float:left; width:44%; margin-right:2%; height:274px; overflow:hidden}
+.prt_videoBox .videoContent {width:100%; height:100%}
+.prt_videoBox .play_btn {position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);}
+
+.prt_glineUl li {margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #b0b0b0;}
+.prt_glineUl li:last-child {margin-bottom:0; padding-bottom:0; border-bottom:none}
+.prt_glineUl .tlt {font-size:13px; margin-bottom:3px}
+.prt_glineUl .txt {font-size:11.5px; color:#888}
+
+
+.prt_graph_two {overflow:hidden}
+.prt_graph_two .prt_graphBox {float:left; width:49%; margin-right:2%}
+.prt_graph_two .prt_graphBox:nth-child(2n) {margin-right:0}
+.prt_graphBox .tlt {font-size:15px; margin-bottom:15px;}
+
+.prt_glineBox .sttBox {display:inline-block; vertical-align:top; margin-right:50px}
+.prt_glineBox .sttBox:last-child {margin-right:0}
+.prt_glineBox .sttBox .tlt {font-size:13px; margin-bottom:15px; text-align:left;}
+
+
+
+.prt_qna dl {margin-bottom:16px}
+.prt_qna dt {position:relative; font-size:13px; color:#505bf0; margin-bottom:8px; padding-left:30px;}
+.prt_qna dt:before {content:""; display:inline-block; width:18px; height:18px; background:url(/static/www/img/print/qna_q.png) no-repeat 0 0; position:absolute; top:0; left:0}
+
+.prt_qna dd {position:relative; padding-left:30px;}
+.prt_qna dd:before {content:""; display:inline-block; width:18px; height:18px; background:url(/static/www/img/print/qna_a.png) no-repeat 0 0; position:absolute; top:0; left:0}
+
+.prt_qna dd p {font-size:13px; font-weight:700; margin-bottom:5px;}
+.prt_qna dd .txt {font-size:12px; color:#888}
+
+
+.resLabelSq {display: flex;align-items: center; letter-spacing: -1.5px;};

@@ -1,0 +1,270 @@
+@charset "utf-8";
+@import url(common.css);/*공통*/
+@import url(content.css);/*컨텐츠*/
+
+/*아이폰에서 input 라운드 없애기*/
+input,button {border-radius:0;-webkit-appearance:none}
+
+/*아이폰에서 input 라운드 없앴을때 크롬에서 체크박스가 사라지는 현상 대처하기*/
+input[type="checkbox"] {-webkit-appearance:checkbox; -moz-appearance:checkbox;}
+input[type="radio"] {-webkit-appearance:radio; -moz-appearance:radio;}`
+
+/*마우스 드래그 배경색*/
+::-moz-selection{background:#505bf0; color:#fff}
+::selection {background:#505bf0; color:#fff}
+
+
+/* --------------------------------------------------head-------------------------------------------------- */
+#headBox {position:fixed; top:0; left:0; width:100%; display:block; overflow:hidden; background:#fff; height:80px; border-bottom:2px solid #505bf0; z-index:100;}
+#head {position:relative; display:block; height:100%;}
+
+#head .admin_logo {position:absolute; top:50%; left:20px; transform: translateY(-50%);}
+
+#head .right_group {position:absolute; top:50%; right:20px; transform: translateY(-50%); font-size:13px}
+#head .right_group > div {display:inline-block; vertical-align:middle}
+#head .right_group .user_name {color:#888}
+#head .right_group .btnBox a {height: 32px; background: #eee; padding:0 15px; border-radius:32px; margin-left:5px; line-height:32px; display:inline-block; color:#555}
+#head .right_group .btnBox .logout {background:#222; color:#fff}
+
+
+/* --------------------------------------------------left_nav-------------------------------------------------- */
+.naviBox {position:fixed; top:80px; left:0; width:220px; background:#fff; box-shadow: 3px 2px 5px rgb(150,150,150,0.15); height:100%; z-index:10}
+.naviBox .navi_tltBox {position:relative; padding:30px 10px; text-align:center; background:#fcfcfc; border-bottom: 1px solid #ddd;}
+.naviBox .navi_tltBox .icon {color:#999; font-size:30px;}
+.naviBox .navi_tltBox .tlt {font-size:25px; color:#333; line-height:1.3em}
+
+.naviBox .navi {width:100%}
+.naviBox .navi .mu_1 {width:100%}
+.naviBox .navi .tlt {position:relative; width:100%; border-bottom: 1px solid #ddd; background:#fff}
+.naviBox .navi .tlt a {font-size:15px; line-height:1.5em; display:block; padding:15px 20px}
+.naviBox .navi .tlt.on a {background:#505bf0; color:#fff}
+
+.naviBox .navi .tlt span {position:relative; display:block; width:100%}
+.naviBox .navi .tlt span:after {content:"\f2c2"; display:block; font-family:lineAwesome; position:absolute; top:50%; right:0; transform: translateY(-50%);}
+.naviBox .navi .tlt.on span:after {content:"\f28e";}
+
+.naviBox .detail_list {display:none; text-align: left; padding: 15px 20px; background: #f2f2f2; border-bottom: 1px solid rgba(0,0,0,0.1);}
+.naviBox .navi .no_dl {display:none !important}
+
+.naviBox .detail_list .mu_2 a {font-size:14px; display:block; line-height:1.4em; margin-bottom:5px;}
+.naviBox .detail_list .mu_2:last-child a {margin-bottom:0}
+.naviBox .detail_list .mu_2 a:before {content:""; display:inline-block; vertical-align:middle; width:5px; height:1px; background:#999; margin-right:5px;}
+.naviBox .detail_list .mu_2.on a, .naviBox .detail_list .mu_2:hover a {color:#505bf0}
+.naviBox .detail_list .mu_2.on a:before, .naviBox .detail_list .mu_2:hover a:before {background:#505bf0;}
+
+
+/* --------------------------------------------------content-------------------------------------------------- */
+#wrap {position:relative; min-width:1200px; margin:0 auto; height:100%}
+#container_wrap {position:relative; z-index:0; padding:80px 0 0 220px;}
+#content {position:relative; padding:30px; word-break: keep-all; word-break:break-all; background:#fff}
+
+.contBg #content {background:none}
+
+.content_title {position:relative; margin-bottom:30px; background:#fff; border-bottom:1px solid #dee2e6; padding-bottom:15px}
+.top_scroll .content_title {position:fixed; top:80px; left:220px; padding:20px 30px; width:87%; z-index:9}
+
+.content_title h3 {font-size:22px; line-height:1.3em;}
+.content_title .cont_txt {font-size:16px; display:inline-block; vertical-align:top; margin-left:30px; color:#555}
+.content_title .cont_txt li {display:inline-block; vertical-align:middle;}
+.content_title .cont_txt li:after {content:""; display:inline-block; vertical-align:middle; width:1px; height:12px; background:#bbb; margin:0 10px 5px}
+.content_title .cont_txt li:last-child:after {display:none}
+
+
+.top_btnBox {position:absolute; top:0; right:0}
+.top_scroll .top_btnBox {top:50%; right:35px; transform: translateY(-50%);}
+
+
+/*타이틀*/
+h4 {position:relative; font-size:22px; color: #444; line-height:1.5em; font-weight:600; margin-bottom:15px;}
+h4:before {content:""; display:inline-block; width:3px; height:17px; background:#505bf0; margin-right:5px;}
+
+h5 {position:relative; font-size:18px; color: #444; line-height:1.5em; margin-bottom:15px;}
+h5:before {content:""; display:inline-block; vertical-align:middle; width:5px; height:5px; background:#444; margin-right:10px; margin-top:-3px;border-radius:50%;}
+
+h6 {position:relative; font-size:16px; color: #505bf0; line-height:1.5em;}
+h6:before {content:""; display:inline-block; vertical-align:middle; width:7px; height:2px; background:#505bf0; margin-right:5px; margin-top:-3px;border-radius:50%;}
+
+.stlt {position:relative; font-size:16px; color: #444; line-height:1.5em; font-weight:500; margin-bottom:15px;}
+
+
+.wd_1 li{width:100%}
+.wd_2 li{width:50%}
+.wd_3 li{width:33.333%}
+.wd_4 li{width:25%}
+.wd_5 li{width:20%}
+.wd_6 li{width:16.666%}
+.wd_7 li{width:14.222%}
+.wd_8 li{width:12.5%}
+.wd_9 li{width:11.111%}
+.wd_10 li{width:10%}
+
+
+/* --------------------------------------------------footer-------------------------------------------------- */
+#footerBox {text-align:center; position:relative; padding:40px 0; font-size:13px; letter-spacing:-0.03em; font-weight:300;}
+
+
+/* --------------------------------------------------라디오 체크버튼-------------------------------------------------- */
+.position_ckBox {position:relative;}
+.position_ckBox li {position:relative; display:inline-block; margin:0 10px 10px 0}
+
+.position_ckBox input[type="checkbox"], .position_ckBox input[type="radio"] {position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;}
+.position_ckBox label {display:block; position:relative; width:100%; height:100%; border:1px solid #bbb; padding:0 20px; height:34px; border-radius:10px; text-align:center; justify-content:center; align-items:center; display: flex;}
+.position_ckBox input:checked + label {border-color: #505bf0; color: #505bf0; background: #eff2ff;}
+
+.fl_wd2 ul {overflow:hidden}
+.fl_wd2 li {float:left; width:49%; margin:0 2% 10px 0}
+.fl_wd2 li:nth-child(2n) {margin-right:0}
+
+.fl_wd3 ul {overflow:hidden}
+.fl_wd3 li {float:left; width:32%; margin:0 2% 10px 0}
+.fl_wd3 li:nth-child(3n) {margin-right:0}
+
+
+/* --------------------------------------------------팝업-------------------------------------------------- */
+.pop_modal {display:none; z-index:101}
+
+.pop_modal2 {opacity:0; position:fixed;width:100%;height:100%;top:0;left:0;bottom:0;background:rgba(0,0,0,0.5); z-index: -1;}
+.pop_modal2.on {opacity:1; z-index: 101;}
+
+.pop_modal2.wi.on {z-index:999999}
+
+.pop_Box {position:relative; max-width:768px; width:100%; margin:60px auto 0; }
+.pop_cont {position:relative; border-radius: 20px; overflow:hidden}
+.pop_tlt {padding:30px 0 6px; background:#fff; color:#505bf0; font-size:30px; font-weight:700; text-align:center; }
+.pop_txt {height:480px; padding:20px 20px 0; font-size:16px; background:#fff; box-sizing: border-box}
+
+.pop_txt .tlt {font-size:22px; margin-bottom:30px; color:#222}
+
+.pop_scroll_box {padding:20px; border:1px solid #ccc; height:420px; overflow:hidden; line-height:1.8em; color:#6a6a6a; overflow-y:scroll}
+.pop_close {cursor:pointer; position:absolute; top:-60px; right:0; background:#505bf0; color:#fff; display:block; width:50px; height:50px; line-height:50px; font-size:20px; text-align:center; border-radius: 50%;}
+
+
+/* --------------------------------------------------풀 팝업-------------------------------------------------- */
+.pop_full {position:fixed !important; top:8vh; left:50%; transform: translateX(-50%); max-width:768px; width:100%; margin:0; height:90vh; overflow:hidden; box-sizing: border-box}
+.pop_full_cont {position:relative;  background:#fff; width:100%; height:100vh; box-sizing: border-box}
+.pop_full_cont2 {width:90%; margin:0 auto;}
+
+.pop_full_scroll {position:relative; padding:0 6% 10%; height:90%; overflow-y:scroll}
+
+.pop_full_cont .close_btn {position:absolute; top:50%; right:3%; transform: translateY(-50%);}
+.pop_full_cont .close_btn img {width:29px;}
+
+.pop_full_cont .top_tltBox .top_tltcont {width:100% !important}
+.pop_full_cont .top_tltBox .top_tltcont.top_tltcont2 {width:90% !important}
+
+.w1200 {width:1200px; max-width:100%}
+
+
+/* --------------------------------------------------스몰 팝업-------------------------------------------------- */
+.spop_Box {position:fixed; top:50%; left:50%; transform: translate(-50%,-50%); max-width:468px; width:100%; border-radius:20px; margin:0; overflow:hidden; box-sizing: border-box}
+.spop_Box.top_radius_none {border-top-left-radius:0; border-top-right-radius:0}
+
+.spop_Box .spop_cont {position:relative; background:#fff; padding:40px 30px; word-break: keep-all}
+.spop_Box .md_pop_content {position:relative; padding-top:0px}
+
+.spop_cpn_tltBox {position:relative; width:100%; height:57px; line-height:52px; margin-bottom:50px; z-index:1}
+.spop_cpn_tltBox:after {content:""; display:block; position:absolute; top:0; left:-10%; width:120%; height:57px; line-height:57px; background:#eaeaea; z-index:-1}
+
+.spop_cpn_tltBox span {display:inline-block; vertical-align:middle; font-size:19px;}
+.spop_cpn_tltBox .spop_cpn_txt {color:#868585; margin-left:15px;}
+
+
+.spop_Box .spop_tltBox {position:relative; height:70px; line-height:70px;}
+.spop_Box .spop_tltBox .spop_tlt {font-size: 22px; font-weight: 700;}
+.spop_Box .spop_tltBox .spop_close_btn {position:absolute; top:50%; right:3%; transform:translateY(-50%);} 
+.spop_Box .spop_tltBox .spop_close_btn img {width:22px;}
+
+.spop_Box .tlt {font-size:25px; font-weight:700; margin-bottom:45px; line-height:1.3em}
+.spop_Box .txt {font-size:18px; margin-bottom:40px; line-height:1.3em}
+.spop_Box .stxt {font-size:14px; color:#a1a1a1}
+
+.spop_Box .big_num {font-size:100px; line-height:1em; margin-bottom:20px}
+
+.spop_Box .spopBtn {overflow:hidden}
+.spop_Box .spopBtn a, .spop_Box .spopBtn button {float:left; display:inline-block; height:50px; line-height:45px; font-size:16px; width:50%;}
+
+.spop_Box .spopBtn.radius_none a:nth-child(1), .spop_Box .spopBtn.radius_none button:nth-child(1) {border-radius:0 0 0 20px}
+.spop_Box .spopBtn.radius_none a:nth-child(2), .spop_Box .spopBtn.radius_none button:nth-child(2) {border-radius:0 0 20px 0}
+
+.spop_Box .spopBtn .spop_btn01 {background:#eaeaea; color:#343434;}
+.spop_Box .spopBtn .spop_btn02 {background:#505bf0; color:#fff;}
+
+.spop_lineBox {border:1px solid #dbdbdb; padding:22px 20px;}
+.spop_lineBox .spl_tlt {font-size:19px;}
+.spop_lineBox .spl_txt {font-size:16px; color: #a1a1a1;}
+
+
+/* --------------------------------------------------탑탭-------------------------------------------------- */
+.top_tab {position:relative; width:100%;}
+.top_tab .depth, .top_tab .depth2 {position:relative; margin:0 0 20px; border-bottom:1px solid #dbdbdb; overflow:hidden;}
+.top_tab .depth li, .top_tab .depth2 li {position:relative; display:inline-block; margin-right:30px; text-align:center;}
+.top_tab .depth li a, .top_tab .depth2 li a {position:relative; font-size:18px; color:#343434; display:inline-block; padding-bottom:18px;}
+/*.top_tab .depth li.on a, .top_tab .depth2 li.on a {color:#505bf0;}*/
+.top_tab .depth li.on a:after, .top_tab .depth2 li.on a:after {content:""; display:block; position:absolute; bottom:0; left:0; width:100%; height:4px; background:#505bf0}
+
+.top_tab .depth2.wd_2_2 li {width:49.5%; margin-right:0}
+.top_tab .depth2.wd_2_2 li a {display:block; width:100%}
+
+
+/* --------------------------------------------------서브탭-------------------------------------------------- */
+.sub_tab {position:relative; width:100%; text-align:center;}
+.sub_tab .depth, .sub_tab .depth2 {position:relative; margin-bottom:40px; overflow:hidden;}
+
+.sub_tab .depth2 {position:relative; text-align:left; overflow:hidden}
+.sub_tab .depth li {display:inline-block; margin-right:15px;}
+
+.sub_tab .depth2 li {display:none; float:left; margin:0 15px 15px 0}
+
+.sub_tab .depth li:last-child, .sub_tab .depth2 li:last-child {margin-right:0;}
+.sub_tab .depth li a, .sub_tab .depth2 li a {display:block; height:54px; line-height:50px; border:1px solid #b0b0b0; padding:0 20px; border-radius:50px; color:#5e5e5e}
+.sub_tab .depth li.on a, .sub_tab .depth2 li.on a {background:#505bf0; border-color:#505bf0; color:#fff}
+
+.sub_tab .depth2.wd_2_2 li {width:49%; margin-right:2%}
+.sub_tab .depth2.wd_2_2 li:nth-child(2n) {margin-right:0}
+.sub_tab .depth2.wd_2_2 li a {display:block; width:100%}
+
+
+/* --------------------------------------------------탭-------------------------------------------------- */
+.tabs {overflow:hidden}
+.tabs li {float:left; width:49%; margin-right:2%;}
+.tabs li:nth-child(2n) {margin-right:0}
+.tabs a {display:block; border:2px solid #bbb; color:#bbb; vertical-align: middle; border-radius:5px; line-height: 1.5em; min-height: 40px; padding: 10px 10px; text-align: center;}
+.tabs li.active a{border-color:#505bf0; color:#505bf0;}
+
+
+/* --------------------------------------------------버튼-------------------------------------------------- */
+.BtnBox {margin-top:30px; overflow:hidden}
+.BtnBox.abs {position:absolute; bottom:100px; left:0; width:100%}
+
+.BtnBox a, .BtnBox button, .BtnBox input[type="submit"] {float:left; width:49%; margin-right:2%;}
+.BtnBox a:nth-child(2n), .BtnBox button:nth-child(2n), .BtnBox input[type="submit"]:nth-child(2n) {margin-right:0}
+
+.BtnBox.abs {position: absolute; bottom: 6%; left: 0; width: 100%;}
+.BtnBox.wi_center {bottom:0; background:#fff; padding:15px;}
+
+.BtnBox .icon {display:inline-block; vertical-align:top; margin-right:15px;}
+.BtnBox .icon img {height:46px;}
+
+.BtnBox .arrow_l, .BtnBox .arrow_r {display:inline-block;}
+.BtnBox .arrow_l {margin-right:10px;}
+.BtnBox .arrow_r {margin-left:10px;}
+.BtnBox .arrow_l img, .BtnBox .arrow_r img {width:12px; margin-top:-4px}
+
+
+/* --------------------------------------------------셀렉트-------------------------------------------------- */
+.sel_lineb {border-bottom:1px solid #dbdbdb; margin-bottom:25px;}
+.selBox {position:relative; display:inline-block; margin-bottom:20px; z-index:2}
+.selBox .selectbox {position:relative; display:inline-block}
+
+.selBox .dropdown {position:relative; min-width:170px; margin-bottom:0; font-size:12px;}
+.selBox .dropdown dt a {display:block; position:relative; width:100%; height:40px; color:#5e5e5e; background:#fff; padding:0 10px; height:40px; line-height:40px; border:1px solid #dbdbdb; border-radius: 5px;}
+.selBox .dropdown.big dt a {height:70px; line-height:65px}
+
+.selBox .dropdown dt a:after {content: "\f106"; display:inline-block;font-family: FontAwesome; position:absolute; top:50%; right:10px; transform: translateY(-50%); font-size:14px}
+.selBox .dropdown dt a.myclass:after {content: "\f107";}
+
+.selBox .dropdown dd {position:relative;}
+.selBox .dropdown dd ul {position:absolute; top:5px; left:0; width:100%;}
+.selBox .dropdown dd ul li a {display:block; padding:0 10px; width:100%; height:40px; line-height:40px; border:1px solid #dbdbdb; margin-top:-1px; color:#5e5e5e; background:#fff;}
+.selBox .dropdown.big dd ul li a {height:40px; line-height:40px}
+.selBox .dropdown dd ul li a:hover {background:#fafafa}
